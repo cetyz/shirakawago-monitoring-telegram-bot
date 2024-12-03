@@ -36,8 +36,8 @@ def format_availability_message(result: AvailabilityResult) -> str:
                 break
         
         status_emoji = {
-            "AVAILABLE": "⭕",
-            "ALMOST_FULL": "△",
+            "AVAILABLE": "⭕⭕⭕⭕⭕",
+            "ALMOST_FULL": "⚠⚠⚠⚠⚠⚠",
             "BOOKED": "❌",
             "NOT_OPEN": "➖",
             "UNKNOWN": "❓"
