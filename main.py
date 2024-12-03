@@ -47,7 +47,7 @@ def format_availability_message(result: AvailabilityResult) -> str:
         date_str = escape_markdown(target_date_str)
         status_str = escape_markdown(status)
         
-        message_parts.append(f"*{hotel_name}*:\n{date_str}: {status_emoji} {status_str}")
+        message_parts.append(f"*{hotel_name}*:\n{status_emoji} {status_str}")
     
     return "\n\n".join(message_parts)
 
@@ -70,25 +70,34 @@ async def check_and_notify():
         logger.error("Please set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in .env file")
         return
 
-    # Initialize scraper and notifier
-    scraper = ShirakawagoBotScraper()
-    notifier = TelegramNotifier(token, chat_id)
+    notifier = None
+    try:
+        # Initialize scraper and notifier
+        scraper = ShirakawagoBotScraper()
+        notifier = TelegramNotifier(token, chat_id)
     
-    # Check availability for specific date
-    target_date = datetime(2025, 2, 9)
-    logger.info(f"Checking availability for {target_date.date()}")
+        # Check availability for specific date
+        target_date = datetime(2025, 2, 9)
+        logger.info(f"Checking availability for {target_date.date()}")
     
-    result = scraper.check_availability(target_date)
-    # print(result)
+        result = scraper.check_availability(target_date)
     
-    # Format and send message
-    message = format_availability_message(result)
-    logger.info("Sending availability notification...")
+        # Format and send message
+        message = format_availability_message(result)
+        logger.info("Sending availability notification...")
     
-    if await notifier.send_message(message):
-        logger.info("Notification sent successfully!")
-    else:
-        logger.error("Failed to send notification")
+        if await notifier.send_message(message):
+            logger.info("Notification sent successfully!")
+        else:
+            logger.error("Failed to send notification")
+    
+    finally:
+        # Cleanup
+        if notifier and hasattr(notifier.bot, 'close'):
+            await notifier.bot.close()
 
 if __name__ == "__main__":
-    asyncio.run(check_and_notify())
+    try:
+        asyncio.run(check_and_notify())
+    except KeyboardInterrupt:
+        pass # handle Ctrl+C gracefully
