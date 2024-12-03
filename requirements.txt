@@ -1,0 +1,17 @@
+# Core dependencies
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+python-telegram-bot>=20.7
+python-dotenv>=1.0.0
+pyyaml>=6.0.1
+google-cloud-storage>=2.13.0
+selenium 
+webdriver_manager
+schedule==1.2.0
+python-telegram-bot==20.7
+
+# Development dependencies
+pytest>=7.4.0
+black>=23.11.0
+flake8>=6.1.0
+python-decouple>=3.8.0

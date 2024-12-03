@@ -1,0 +1,17 @@
+shirakawago-monitoring-telegram-bot/
+├── src/
+│   ├── __init__.py
+│   ├── data/
+│   │   └── __init__.py
+│   ├── notification/
+│   │   ├── __init__.py
+│   │   └── telegram.py
+│   └── scraper/
+│       ├── __init__.py
+│       └── scraper.py
+├── .gitattributes
+├── .gitignore
+├── venv
+├── .env
+├── requirements.txt
+└── main.py
